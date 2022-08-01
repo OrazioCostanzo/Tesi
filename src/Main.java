@@ -6,8 +6,10 @@ public class Main {
         for(int i = 0; i < loop; i++){
             sb.append (gen[(int) (Math.random() * gen.length)]) ;
         }
-        SuffixArray s = SuffixArrayBuilder.buildSuffixArray("ba.,,&nan          \nanana");
+        SuffixArray s = SuffixArrayBuilder.buildSuffixArray("bnanaaanana");
         s.printSA();
+
+
 
     }
 }

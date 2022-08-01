@@ -1,4 +1,7 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -94,11 +97,25 @@ public class Suffix implements Comparable<Suffix>{
     }
     private static Suffix[] initialize(String text){
         int text_length = text.length();
+        AtomicInteger index = new AtomicInteger(-1);
         Suffix[] sa = new Suffix[text_length];
 
-        for(int i=0 ; i<text_length ; i++)
+        Object[] temp_sa = Arrays.stream(sa)
+                                 .map(suffix -> {
+                                     index.getAndIncrement();
+                                     return new Suffix(index.get(), text.charAt(index.get()) - Suffix.PUPPET_CHAR, 0);
+                                 })
+                                 .toArray();
+        for(int i = 0; i < temp_sa.length; i++) {
+            if(temp_sa[i] instanceof Suffix)
+                sa[i] = (Suffix) temp_sa[i];
+        }
+
+       /*for(int i=0 ; i<text_length ; i++)
             //inserisco il rank, cioè la differenza del carattere corrente con $ (quanto dista il carattere corrente con $)
             sa[i] = new Suffix(i, text.charAt(i) - Suffix.PUPPET_CHAR,0);
+            */
+
         return sa;
     }
     /**
