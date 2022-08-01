@@ -6,10 +6,15 @@ public class Main {
         for(int i = 0; i < loop; i++){
             sb.append (gen[(int) (Math.random() * gen.length)]) ;
         }
-        SuffixArray s = SuffixArrayBuilder.buildSuffixArray("bnanaaanana");
-        s.printSA();
+        SuffixArray s = SuffixArrayBuilder.buildSuffixArray(sb.toString());
+
+        System.out.println(numberElementSATest(s));
 
 
 
+    }
+    public static boolean numberElementSATest(SuffixArray sa){
+        if(sa.sa().length == sa.text().length() ) return true;
+        return false;
     }
 }

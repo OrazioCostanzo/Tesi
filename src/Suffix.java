@@ -55,11 +55,9 @@ public class Suffix implements Comparable<Suffix>{
         int[] index = new int[sa_size];
         //ciclo per ogni 2^i caratteri da controllare quindi parto da 4 dato che i primi due li abibamo fatti e poi shifto 4 a destra cosi diventa 8 ,16... fino a 2*n
         for(int length = 4 ; length < 2*sa_size ; length <<=1){
-
             int rank = 0, previous = sa[0].rank;
             sa[0].rank = rank;
             index[sa[0].index] = 0;
-
             for(int i = 1 ; i < sa_size ; i++){
                 if(sa[i].rank == previous && sa[i].next_rank == sa[i - 1].next_rank){
                     previous = sa[i].rank;
