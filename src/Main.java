@@ -1,20 +1,33 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class Main {
     public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        char[] gen = {'A','B','C','D'};
-        int loop = 100000;
-        for(int i = 0; i < loop; i++){
-            sb.append (gen[(int) (Math.random() * gen.length)]) ;
+
+        String ss = "«Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum$»";
+        //String ss = "banana";
+        /*StringBuilder ss = new StringBuilder();
+        long lenn = 100;
+        char[]gen = {'A','B','C','D'};
+        for(int i = 0; i < lenn; i++)
+            ss.append(gen[(int) (Math.random() * 4)]);
+            */
+        long start = System.currentTimeMillis();
+        SuffixArray s = SuffixArrayBuilder.buildSuffixArray(ss.toString().toLowerCase());
+        long end = System.currentTimeMillis();
+
+        System.out.println(end - start);
+
+        long n = s.getLength();
+        try(PrintWriter writer = new PrintWriter("PROVA.txt")){
+            for(int i=0 ; i<n ; i++) writer.println( "LCP ARRAY:" + s.getLcp()[i] + " SUFFISSO:" +  s.getText().substring(s.getSaIndex()[i]));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        SuffixArray s = SuffixArrayBuilder.buildSuffixArray(sb.toString());
-
-        System.out.println(numberElementSATest(s));
-
 
 
     }
     public static boolean numberElementSATest(SuffixArray sa){
-        if(sa.sa().length == sa.text().length() ) return true;
-        return false;
+        return sa.getLength() == sa.getText().length();
     }
 }

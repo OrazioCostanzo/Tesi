@@ -1,7 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -11,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Suffix implements Comparable<Suffix>{
     private static char PUPPET_CHAR = '$';
-    private int index;
+    private final int index;
     private int rank;
     private int next_rank;
     /**
@@ -137,7 +134,6 @@ public class Suffix implements Comparable<Suffix>{
      * @return Suffix Array object.
      */
     public static SuffixArray buildSuffixArray(String text){
-        return getSA(build(initialize(text)),text);
+         return getSA(build(initialize(text)),text);
     }
-
 }
