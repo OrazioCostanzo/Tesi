@@ -7,10 +7,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Orazio Costanzo.
  */
 public class Suffix implements Comparable<Suffix>{
+
+    //Fields
+    //------------------------------------------------------------------------------------------------------------------
     private static char PUPPET_CHAR = '$';
     private final int index;
     private int rank;
     private int next_rank;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //Constructors
+    //------------------------------------------------------------------------------------------------------------------
     /**
      * Creates and initializes a suffix object.
      * @param index The original index of the suffix (position in the text).
@@ -22,6 +30,7 @@ public class Suffix implements Comparable<Suffix>{
         this.rank = rank;
         this.next_rank = next_rank;
     }
+
     /**
      * Constructor which accepts a Suffix object.
      * @param s a Suffix object.
@@ -31,6 +40,11 @@ public class Suffix implements Comparable<Suffix>{
         this.rank = s.rank;
         this.next_rank = s.next_rank;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //Methods
+    //------------------------------------------------------------------------------------------------------------------
     /**
      * This method creates an integer array that contains the indexes of the sorted suffixes.
      * Sorting algorithm. @see Arrays.
@@ -90,6 +104,7 @@ public class Suffix implements Comparable<Suffix>{
         return suffix_array;
         //ricalcolo i rank , il primo elemento ha rank 1  e calcolo il previuos
     }
+
     private static Suffix[] initialize(String text){
         int text_length = text.length();
         AtomicInteger index = new AtomicInteger(-1);
@@ -113,9 +128,9 @@ public class Suffix implements Comparable<Suffix>{
 
         return sa;
     }
+
     /**
-     * if(this.rank != suffix.rank) return Integer.compare(this.rank, suffix.rank);<br>
-     * return Integer.compare(this.next_rank, suffix.next_rank);.<br>
+     * Compare either this rank with other suffix rank or this next_rank with other suffix next_rank.
      * @param suffix the object to be compared.
      * @return A negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      * @see Comparable
@@ -125,15 +140,23 @@ public class Suffix implements Comparable<Suffix>{
         if(this.rank != suffix.rank) return Integer.compare(this.rank, suffix.rank);
         return Integer.compare(this.next_rank, suffix.next_rank);
     }
-    private static SuffixArray getSA(Integer[] sa, String text){
-        return new SuffixArray(sa, text);
-    }
+
     /**
      * Build a suffix array , on the text.
      * @param text Raw text (without being processed).Text on which to create the suffix array.
      * @return Suffix Array object.
      */
     public static SuffixArray buildSuffixArray(String text){
-         return getSA(build(initialize(text)),text);
+        return getSA(build(initialize(text)),text);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //Getter
+    //------------------------------------------------------------------------------------------------------------------
+    private static SuffixArray getSA(Integer[] sa, String text){
+        return new SuffixArray(sa, text);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
