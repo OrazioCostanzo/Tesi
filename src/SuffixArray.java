@@ -1,6 +1,8 @@
-import java.util.Arrays;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 /**
  * This class manages an array of integers (suffix array) and the text on which the suffix array has been built.
@@ -13,6 +15,7 @@ public class  SuffixArray {
     private Integer[] sa_index; // suffix array index
     private Integer[] ta_index; //text array index
     private Integer[] lcp; //lcp array
+    private Character[] left_char_array;
     private String text; //text
     //------------------------------------------------------------------------------------------------------------------
 
@@ -25,14 +28,16 @@ public class  SuffixArray {
      * @param text Text after filtering
      */
     public SuffixArray(Integer[] sa_index, String text) {
+        int sa_length = sa_index.length;
+
         this.sa_index = sa_index;
         this.text = text;
-        int sa_length = sa_index.length;
         this.ta_index = new Integer[sa_length];
-        this.lcp = new Integer[sa_length];
+        this.left_char_array = new Character[sa_length];
+        this.lcp = new Integer[sa_length] ;
 
-        for(int i=0 ; i < sa_index.length; i++)
-            this.ta_index[this.sa_index[i]] = i;
+        for(int i=0 ; i < sa_length; i++)
+            this.ta_index[sa_index[i]] = i;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -54,6 +59,7 @@ public class  SuffixArray {
      */
     public void printSA(final long n){
         final long sa_size = sa_index.length;
+
         if(n > sa_size || n < 0) {
             System.out.println("The size of the suffix array is: " + sa_size);
             return;
@@ -71,6 +77,7 @@ public class  SuffixArray {
      */
     public void printSA(final long m, final long n){
         final long sa_size = sa_index.length;
+
         if((m < 0 || m > sa_size) || (n < 0)) {
             System.out.println("The size of the suffix array is: " + sa_size);
             return;
@@ -91,8 +98,10 @@ public class  SuffixArray {
      * @return return a SuffixArray object.
      * @see java.util.Arrays
      */
-    public static SuffixArray buildSuffixArray(String text){
-        return SuffixArrayBuilder.buildSuffixArray(text);
+    public static SuffixArray buildSuffixArray(String... text){
+        String txt = Arrays.stream(text)
+                .reduce("",(left_txt, right_txt) -> left_txt + right_txt);
+        return SuffixArrayBuilder.buildSuffixArray(txt);
     }
 
     /**
@@ -123,16 +132,22 @@ public class  SuffixArray {
      * sa_index getter
      * @return return sa_index
      */
-    public Integer[] getSaIndex() {
+    public Integer[] getSa() {
         return sa_index;
+    }
+    public int getSaElement(int index){
+        return sa_index[index];
     }
 
     /**
      * ta_index getter
      * @return return ta_index
      */
-    public Integer[] getTaIndex() {
+    public Integer[] getTa() {
         return ta_index;
+    }
+    public  int getTaElement(int index){
+        return ta_index[index];
     }
 
     /**
@@ -141,6 +156,47 @@ public class  SuffixArray {
      */
     public Integer[] getLcp() {
         return lcp;
+    }
+    public int getLcpElement(int index){
+        return this.lcp[index];
+    }
+    public Character[] getLCA(){
+        return left_char_array;
+    }
+    public Character getLCAElement(int index) {
+        return left_char_array[index];
+    }
+
+
+    /**
+     * Get the longest repeated substring.
+     * @return List with LRS.
+     */
+//longest repeating subsequence
+    public Map<Integer,List<Integer>> getLRS() {
+        AtomicInteger index = new AtomicInteger(-1);
+
+        Optional<Integer> max = Arrays.stream(lcp)
+                .max(Comparator.naturalOrder());
+
+        return Arrays.stream(sa_index)
+                     .filter(element -> {
+                         index.getAndIncrement();
+                         return getLcpElement(index.get()) == max.get();
+                     })
+                     .collect(Collectors.groupingBy(element -> getLcpElement(getTaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
+    }
+
+    public Map<Integer,String> getLRSMap(Map<Integer,List<Integer>> map ){
+          return   map.values()
+                       .stream()
+                       .toList()
+                       .get(0)
+                       .stream()
+                       .collect(Collectors.toMap(this::getTaElement,
+                                                 value -> getText()
+                                                         .substring(value,
+                                                                    value + getLcpElement(getTaElement(value)))));
     }
 
     private long getTaCurrentIndex(int index){
@@ -213,6 +269,8 @@ public class  SuffixArray {
     public static void setReplace(String new_replace){
         SuffixArrayBuilder.setReplace(new_replace);
     }
+
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -224,8 +282,6 @@ public class  SuffixArray {
      * @author Orazio Costanzo.
      */
     public static class SuffixArrayBuilder{
-
-
         //Fields
         //------------------------------------------------------------------------------------------------------------------
         private static String FILTER = "\\s+|\\W";
@@ -243,21 +299,27 @@ public class  SuffixArray {
 
         private static SuffixArray buildSuffixArray(String text){
             text = SuffixArrayBuilder.textCleaner(text) + VIRTUAL_CHAR;
-            return  buildLcpArray( Suffix.buildSuffixArray(text) );
+            return  buildLCA( buildLcpArray( Suffix.buildSuffixArray(text)));
+        }
+        private static SuffixArray buildLCA(SuffixArray sa_array) {
+          sa_array.left_char_array = Arrays.stream(sa_array.getSa())
+                    .map(index -> index != 0 ? sa_array.getText().charAt(index - 1) : null)
+                    .toArray(Character[]::new);
+          return sa_array;
         }
 
         private static SuffixArray buildLcpArray(SuffixArray sa_array) {
             int len = 0;  // how many characters remain
             long text_position;  // the position of the suffix in the text as if sa_index had not been sorted
             long sa_array_len = sa_array.getLength();
-            long prev;
-            Integer[] sa_index = sa_array.getSaIndex();
+            long prev; //index of previous suffix
+            Integer[] sa_index = sa_array.getSa();
             String text = sa_array.getText();
 
             for(int i = 0; i < sa_array_len; i++){
                 text_position = sa_array.getTaCurrentIndex(i);
                 if(text_position > 0) {                            // text_position == 0 when i = sa_array.length - 1 (end sa_array)
-                    prev = sa_index[(int) text_position - 1]; // Take a previous index
+                    prev = sa_index[(int) text_position - 1];  // Take a previous index
                     while(text.charAt(i + len) == text.charAt((int) (prev + len))){
                         len = len + 1;
                     }     //while same char
