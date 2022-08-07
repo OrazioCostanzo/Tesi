@@ -187,6 +187,7 @@ public class  SuffixArray {
                      .collect(Collectors.groupingBy(element -> getLcpElement(getTaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
     }
 
+
     public Map<Integer,String> getLRSMap(Map<Integer,List<Integer>> map ){
           return   map.values()
                        .stream()
