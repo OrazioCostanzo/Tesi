@@ -13,9 +13,15 @@ public class  SuffixArray {
     //Fields
     //------------------------------------------------------------------------------------------------------------------
     private Integer[] sa_index; // suffix array index
-    private Integer[] ta_index; //text array index
+    private Integer[] isa_index; //text array index
     private Integer[] lcp; //lcp array
     private Character[] left_char_array;
+    private Character[] right_char_array;
+    /*
+    "start with new char" is an array that contains the indexes of the suffix array which have respectively lcp = 0,
+     it means that there will be a new succession of suffixes starting with a new character.
+     */
+    private Map<Character, Integer> swnc_index;
     private String text; //text
     //------------------------------------------------------------------------------------------------------------------
 
@@ -32,12 +38,13 @@ public class  SuffixArray {
 
         this.sa_index = sa_index;
         this.text = text;
-        this.ta_index = new Integer[sa_length];
+        this.isa_index = new Integer[sa_length];
         this.left_char_array = new Character[sa_length];
+        this.right_char_array = new Character[sa_length];
         this.lcp = new Integer[sa_length] ;
 
         for(int i=0 ; i < sa_length; i++)
-            this.ta_index[sa_index[i]] = i;
+            this.isa_index[sa_index[i]] = i;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -52,6 +59,7 @@ public class  SuffixArray {
                 .map(text::substring)
                 .forEach(System.out::println);
     }
+
 
     /**
      * Prints the first n suffixes.
@@ -89,6 +97,7 @@ public class  SuffixArray {
                 .forEach(System.out::println);
     }
 
+
     /**
      * Call Suffix.buildSuffixArray(text) to build a suffix array.
      * Suffix.buildSuffixArray(text) ==> build(initialize(text).
@@ -123,11 +132,83 @@ public class  SuffixArray {
                 .map(index -> "Index:[" + index + "] " + "Suffix:\"" + text.substring(index) + "\"\n")
                 .reduce("", String::concat);
     }
+//if existed, return position index
+    public long isSubstring(String string){
+        return binarySearch(this.sa_index, string);
+    }
+//binarysearch?
+    private long binarySearch(Integer[] sa_array, String string){
+        long left = 0;
+        int str_len = string.length();
+        long right = sa_array.length - 1;
+        int result = 0;
+        String text = this.getText();
+        long text_len  = this.getText().length();
+        long middle = 0;
+
+        while(left <= right){
+            middle =  left + (right - left) / 2;
+            long end = str_len + sa_array[(int) middle];
+
+            if(end < text_len)
+                result = string.compareTo(text.substring(sa_array[(int) middle], (int) end));
+            else
+                result = string.compareTo(text.substring(sa_array[(int) middle]));
+
+            if(result == 0)
+                return middle;
+            if(result < 0 )
+                right = middle - 1;
+            if(result > 0)
+                left = middle + 1;
+        }
+        return -1;
+    }
+
+
     //------------------------------------------------------------------------------------------------------------------
 
 
     //Getter
     //------------------------------------------------------------------------------------------------------------------
+
+    //get string frequency
+// log2 (n) binary search + k + m  con m = lunghezza sottostringa da cercare e k = numero di vpolte che si ripete la sottostrigna , O(K)?
+    public int[] getStrFre(String str){
+        int first_index =(int) isSubstring(str);
+        int index = first_index + 1;
+        int str_len = str.length();
+        String text = getText();
+        int text_len = text.length();
+        int[] result = new int[]{0,0,0};
+
+
+        if(first_index >= 0 && first_index < sa_index.length){
+            // ricerca altre stringhe uguali negli indici sotto
+            while(index < sa_index.length && getLcpElement(index) >= str_len ){
+                //if((getSaElement(index) + str.length() < text_len) && text.substring(getSaElement(index), getSaElement(index) + str.length()).equals(str))
+                result[0]++;
+                index++;
+            }
+            result[2] = index - 1;
+            //altrimenti la prima stringa nel primo indice trovato con il binarysearch lo conta due volte
+            index = first_index;
+            //up
+            while(index > 0 && getLcpElement(index) >= str_len ){
+                //if((getSaElement(index) + str.length() < text_len) && text.substring(getSaElement(index), getSaElement(index) + str.length()).equals(str))
+                result[0]++;
+                index--;
+            }
+            result[1] = index;
+        // controllo l'ultimo indice sopra
+            if((getSaElement(index) + str.length() < text_len) && (text.substring(getSaElement(index), getSaElement(index) + str.length()).equals(str)) )
+                result[0]++;
+
+            return result;
+        }
+        return result;
+    }
+
     /**
      * sa_index getter
      * @return return sa_index
@@ -143,11 +224,11 @@ public class  SuffixArray {
      * ta_index getter
      * @return return ta_index
      */
-    public Integer[] getTa() {
-        return ta_index;
+    public Integer[] getIsa() {
+        return isa_index;
     }
-    public  int getTaElement(int index){
-        return ta_index[index];
+    public  int getIsaElement(int index){
+        return isa_index[index];
     }
 
     /**
@@ -165,6 +246,18 @@ public class  SuffixArray {
     }
     public Character getLCAElement(int index) {
         return left_char_array[index];
+    }
+    public Character[] getRCA(){
+        return this.right_char_array;
+    }
+    public Character getRCAElement(int index){
+        return this.right_char_array[index];
+    }
+    public Map<Character,Integer> getSWNC(){
+        return this.swnc_index;
+    }
+    public int getSWNCElement(char c){
+        return this.swnc_index.get(c);
     }
 
 
@@ -184,7 +277,7 @@ public class  SuffixArray {
                          index.getAndIncrement();
                          return getLcpElement(index.get()) == max.get();
                      })
-                     .collect(Collectors.groupingBy(element -> getLcpElement(getTaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
+                     .collect(Collectors.groupingBy(element -> getLcpElement(getIsaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
     }
 
 
@@ -194,14 +287,14 @@ public class  SuffixArray {
                        .toList()
                        .get(0)
                        .stream()
-                       .collect(Collectors.toMap(this::getTaElement,
+                       .collect(Collectors.toMap(this::getIsaElement,
                                                  value -> getText()
                                                          .substring(value,
-                                                                    value + getLcpElement(getTaElement(value)))));
+                                                                    value + getLcpElement(getIsaElement(value)))));
     }
 
     private long getTaCurrentIndex(int index){
-        return this.ta_index[index];
+        return this.isa_index[index];
     }
 
     /**
@@ -227,6 +320,7 @@ public class  SuffixArray {
     public static String getVirtualChar() {
         return SuffixArrayBuilder.getVirtualChar();
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -285,6 +379,7 @@ public class  SuffixArray {
     public static class SuffixArrayBuilder{
         //Fields
         //------------------------------------------------------------------------------------------------------------------
+        private static int FIRST_LCP_POSITION = -1;
         private static String FILTER = "\\s+|\\W";
         private static String VIRTUAL_CHAR = "$"; //virtual character that does not belong to the alphabet of the text
         private static String REPLACE = "";
@@ -298,15 +393,51 @@ public class  SuffixArray {
                     .replaceAll(FILTER,REPLACE);
         }
 
-        private static SuffixArray buildSuffixArray(String text){
+        private static SuffixArray buildSuffixArray(String text) {
             text = SuffixArrayBuilder.textCleaner(text) + VIRTUAL_CHAR;
-            return  buildLCA( buildLcpArray( Suffix.buildSuffixArray(text)));
+            return  buildCAs(buildLcpArray(Suffix.buildSuffixArray(text)));
         }
-        private static SuffixArray buildLCA(SuffixArray sa_array) {
-          sa_array.left_char_array = Arrays.stream(sa_array.getSa())
-                    .map(index -> index != 0 ? sa_array.getText().charAt(index - 1) : null)
-                    .toArray(Character[]::new);
-          return sa_array;
+
+        // metodo che associa ad ogni suffisso il carattere subito prima ,left char
+        // da aggustare per o suffissi che hanno lcp = 0
+        //buil left and right char array
+        private static SuffixArray buildCAs(SuffixArray sa_array) {
+            AtomicInteger index = new AtomicInteger(-1);
+            String text = sa_array.getText();
+            int sa_index_len = sa_array.sa_index.length;
+
+            Arrays.stream(sa_array.getSa())
+                  .forEach(current_index -> {
+                      index.getAndIncrement();
+
+                      if((current_index != 0) && (current_index != sa_index_len - 1)) {
+                          if(sa_array.lcp[sa_array.isa_index[current_index]] == 0)
+                              sa_array.right_char_array[index.get()] = text.charAt(current_index + 1);
+                          else
+                              sa_array.right_char_array[index.get()] = text.charAt(current_index + sa_array.lcp[sa_array.isa_index[current_index]]);
+                          sa_array.left_char_array[index.get()] = text.charAt(current_index - 1);
+                      }
+                      if(current_index == 0){
+                          sa_array.left_char_array[index.get()] = null;
+                          if(sa_array.lcp[sa_array.isa_index[current_index]] == 0)
+                              sa_array.right_char_array[index.get()] = text.charAt(current_index + 1);
+                          else
+                              sa_array.right_char_array[index.get()] = text.charAt(current_index + sa_array.lcp[sa_array.isa_index[current_index]]);
+                      }
+                      if(current_index == sa_index_len -1) {
+                          sa_array.left_char_array[index.get()] = text.charAt(current_index - 1);
+                          sa_array.right_char_array[index.get()] = null;
+                      }
+
+                  });
+            return sa_array;
+
+
+                        /*
+            sa_array.left_char_array = Arrays.stream(sa_array.getSa())
+                                             .map(index -> index != 0 ? sa_array.getText().charAt(index - 1) : null)
+                                             .toArray(Character[]::new);
+             */
         }
 
         private static SuffixArray buildLcpArray(SuffixArray sa_array) {
@@ -327,11 +458,12 @@ public class  SuffixArray {
                     sa_array.setLcp(text_position,len);
                     len = Math.max((len - 1), 0);  //decrease number of equal characters
                 }else{
-                    sa_array.setLcp(text_position, -1);
+                    sa_array.setLcp(text_position, FIRST_LCP_POSITION);
                 }
             }
             return sa_array;
         }
+
         //------------------------------------------------------------------------------------------------------------------
 
 
@@ -363,5 +495,5 @@ public class  SuffixArray {
         }
         //------------------------------------------------------------------------------------------------------------------
     }
-    //------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
 }
