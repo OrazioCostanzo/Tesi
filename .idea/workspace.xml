@@ -7,7 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map ).&#10;   &#10;2. Da controllare la riga 185 max.get() da sistemare con max.isPresent() ... max.get().">
+    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre">
+      <change afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROVA.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PROVA.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
@@ -27,6 +28,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/SuffixArray.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -161,7 +165,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659872037803</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre">
+      <created>1660327604516</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1660327604516</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,7 +209,8 @@
     <MESSAGE value="Date: 8/6/2022.&#10;change 1.6.&#10;&#10;1.Aggiornata Javadoc&#10;&#10;2.SuffixArrayBuilder è&#10;diventata inner class di&#10;SuffixArray." />
     <MESSAGE value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map )." />
     <MESSAGE value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map ).&#10;   &#10;2. Da controllare la riga 185 max.get() da sistemare con max.isPresent() ... max.get()." />
-    <option name="LAST_COMMIT_MESSAGE" value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map ).&#10;   &#10;2. Da controllare la riga 185 max.get() da sistemare con max.isPresent() ... max.get()." />
+    <MESSAGE value="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre" />
+    <option name="LAST_COMMIT_MESSAGE" value="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -210,13 +222,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SuffixArray.java</url>
-          <line>439</line>
-          <option name="timeStamp" value="23" />
+          <line>309</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SuffixArray.java</url>
-          <line>307</line>
-          <option name="timeStamp" value="24" />
+          <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Suffix.java</url>

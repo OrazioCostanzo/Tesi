@@ -15,6 +15,7 @@ public class  SuffixArray {
     private Integer[] sa_index; // suffix array index
     private Integer[] isa_index; //text array index
     private Integer[] lcp; //lcp array
+    private int max_lcp;
     private Character[] left_char_array;
     private Character[] right_char_array;
     /*
@@ -46,6 +47,7 @@ public class  SuffixArray {
         for(int i=0 ; i < sa_length; i++)
             this.isa_index[sa_index[i]] = i;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -107,10 +109,11 @@ public class  SuffixArray {
      * @return return a SuffixArray object.
      * @see java.util.Arrays
      */
-    public static SuffixArray buildSuffixArray(String... text){
-        String txt = Arrays.stream(text)
-                .reduce("",(left_txt, right_txt) -> left_txt + right_txt);
-        return SuffixArrayBuilder.buildSuffixArray(txt);
+    public static SuffixArray buildSuffixArray(String text){
+       /* String txt = Arrays.stream(text)
+                           .reduce("",(left_txt, right_txt) -> left_txt + right_txt);
+       */
+        return SuffixArrayBuilder.buildSuffixArray(text);
     }
 
     /**
@@ -209,6 +212,9 @@ public class  SuffixArray {
         return result;
     }
 
+    public int getMax_lcp(){
+        return this.max_lcp;
+    }
     /**
      * sa_index getter
      * @return return sa_index
@@ -293,9 +299,6 @@ public class  SuffixArray {
                                                                     value + getLcpElement(getIsaElement(value)))));
     }
 
-    private long getTaCurrentIndex(int index){
-        return this.isa_index[index];
-    }
 
     /**
      * Return the original text (after textCleaner)
@@ -379,7 +382,7 @@ public class  SuffixArray {
     public static class SuffixArrayBuilder{
         //Fields
         //------------------------------------------------------------------------------------------------------------------
-        private static int FIRST_LCP_POSITION = -1;
+        private static int FIRST_LCP_POSITION = 0;
         private static String FILTER = "\\s+|\\W";
         private static String VIRTUAL_CHAR = "$"; //virtual character that does not belong to the alphabet of the text
         private static String REPLACE = "";
@@ -388,6 +391,7 @@ public class  SuffixArray {
 
         //Method
         //------------------------------------------------------------------------------------------------------------------
+
         private static String textCleaner(String text){
             return text.trim()
                     .replaceAll(FILTER,REPLACE);
@@ -395,13 +399,14 @@ public class  SuffixArray {
 
         private static SuffixArray buildSuffixArray(String text) {
             text = SuffixArrayBuilder.textCleaner(text) + VIRTUAL_CHAR;
-            return  buildCAs(buildLcpArray(Suffix.buildSuffixArray(text)));
+            //return  buildCAs(buildLcpArray(Suffix.buildSuffixArray(text)));
+            return  buildLcpArray(Suffix.buildSuffixArray(text));
         }
 
         // metodo che associa ad ogni suffisso il carattere subito prima ,left char
         // da aggustare per o suffissi che hanno lcp = 0
         //buil left and right char array
-        private static SuffixArray buildCAs(SuffixArray sa_array) {
+       /* private static SuffixArray buildCAs(SuffixArray sa_array) {
             AtomicInteger index = new AtomicInteger(-1);
             String text = sa_array.getText();
             int sa_index_len = sa_array.sa_index.length;
@@ -431,36 +436,33 @@ public class  SuffixArray {
 
                   });
             return sa_array;
-
-
-                        /*
-            sa_array.left_char_array = Arrays.stream(sa_array.getSa())
-                                             .map(index -> index != 0 ? sa_array.getText().charAt(index - 1) : null)
-                                             .toArray(Character[]::new);
-             */
         }
-
+*/
         private static SuffixArray buildLcpArray(SuffixArray sa_array) {
+            int max_lcp_element=0;
             int len = 0;  // how many characters remain
-            long text_position;  // the position of the suffix in the text as if sa_index had not been sorted
-            long sa_array_len = sa_array.getLength();
+            long sa_position;  // the position of the suffix in the suffix array
+            long sa_array_len = sa_array.getLength();  // sa_array.getLength() == sa_array.sa_index.length;
             long prev; //index of previous suffix
             Integer[] sa_index = sa_array.getSa();
             String text = sa_array.getText();
 
+
             for(int i = 0; i < sa_array_len; i++){
-                text_position = sa_array.getTaCurrentIndex(i);
-                if(text_position > 0) {                            // text_position == 0 when i = sa_array.length - 1 (end sa_array)
-                    prev = sa_index[(int) text_position - 1];  // Take a previous index
+                sa_position = sa_array.getIsaElement(i);
+                if(sa_position > 0) {    // text_position == 0 when i = sa_array.length - 1 (end sa_array)
+                    prev = sa_index[(int) sa_position - 1];  // Take a previous index
                     while(text.charAt(i + len) == text.charAt((int) (prev + len))){
                         len = len + 1;
                     }     //while same char
-                    sa_array.setLcp(text_position,len);
+                    sa_array.setLcp(sa_position,len);
+                    max_lcp_element = Math.max(max_lcp_element, len);
                     len = Math.max((len - 1), 0);  //decrease number of equal characters
                 }else{
-                    sa_array.setLcp(text_position, FIRST_LCP_POSITION);
+                    sa_array.setLcp(sa_position, FIRST_LCP_POSITION);
                 }
             }
+            sa_array.max_lcp = max_lcp_element;
             return sa_array;
         }
 
@@ -480,6 +482,7 @@ public class  SuffixArray {
         private static void setVirtualChar(Character new_virtual_char){
             VIRTUAL_CHAR =  String.valueOf(new_virtual_char);
         }
+
 
         private static void setFilter(String regex){
             try{
