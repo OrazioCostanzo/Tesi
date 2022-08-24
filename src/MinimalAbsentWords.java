@@ -170,6 +170,7 @@ public class MinimalAbsentWords {
         int pre_char;
         ArrayDeque<Integer> lifo_lcp = new ArrayDeque<>();
         ArrayDeque<Integer> lifo_rem = new ArrayDeque<>();
+        ArrayDeque<Integer> lifo_mem = new ArrayDeque<>();
         Arrays.stream(interval).forEach(row -> Arrays.fill(row,false));
         Integer top_stack;
         Integer next_lcp;
@@ -193,17 +194,20 @@ public class MinimalAbsentWords {
 
         for(int i = (n - 1); i >= 0; i--){
 
-            stack_it = lifo_lcp.iterator();
+            /*stack_it = lifo_lcp.iterator();
             top_stack = stack_it.next();
             next_lcp = lcp[i] + 1 ;
 
+             */
+            top_stack = lifo_lcp.pop();
+            next_lcp = lcp[i] + 1;
+
             // fino a quando il suffisso corrente ha un prefisso comune più corto
-            while(stack_it.hasNext() && top_stack > lcp[i]){
+            while((!lifo_lcp.isEmpty()) && top_stack > lcp[i]){
                 lifo_rem.push(top_stack);
-                next_stack = stack_it.next();
+                next_stack = lifo_lcp.pop();
 
                 if(next_stack < lcp[i]){
-
                     for(int j = 0; j < alphabet.size(); j++){
                         interval[j][lcp[i]] = interval[j][top_stack];
                     }
@@ -214,18 +218,21 @@ public class MinimalAbsentWords {
                 }
                 top_stack = next_stack;
             }
-            stack_it = lifo_lcp.iterator();
+            lifo_lcp.push(top_stack);
 
-            for(int j = 0; j < alphabet.size(); j++){
-                if(b1[j][i << 1] == true){
-                    stack_it = lifo_lcp.iterator();
-
-                    while(stack_it.hasNext()){
-                        top_stack = stack_it.next();
-                        if(interval[j][top_stack] == true) break;
-                        interval[j][top_stack] = true;
+            for(int k = 0; k < alphabet.size(); k++){
+                if(b1[k][i << 1] == true){
+                    while((!lifo_lcp.isEmpty())){
+                        top_stack = lifo_lcp.pop();
+                        lifo_mem.push(top_stack);
+                        if(interval[k][top_stack] == true) break;
+                        interval[k][top_stack] = true;
                     }
-                    interval[j][lcp[i]] = true;
+                    while (!lifo_mem.isEmpty()){
+                        top_stack = lifo_mem.pop();
+                        lifo_lcp.push(top_stack);
+                    }
+                    interval[k][lcp[i]] = true;
                 }
             }
 
@@ -240,7 +247,7 @@ public class MinimalAbsentWords {
 
             next_next_lcp = next_lcp;
 
-            if(i < n - 1 && lcp[i + 1] > lcp[i]){
+            if(i < (n - 1) && lcp[i + 1] > lcp[i]){
                 top_stack  = lifo_rem.pop();
 
                 for(int j = 0; j < alphabet.size(); j++){
@@ -255,12 +262,14 @@ public class MinimalAbsentWords {
                     }
                 }
             }
+            top_stack = lifo_lcp.pop();
 
-            if(lifo_lcp.peek() != lcp[i]){
-                lifo_lcp.push(lcp[i]);
+            if(top_stack != lcp[i]){
+                lifo_lcp.push(top_stack);
+                top_stack = lcp[i];
             }
+            lifo_lcp.push(top_stack);
         }
-
     }
 
 

@@ -10,14 +10,15 @@ public class Main {
        // String ss = "«Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum$»";
        // String ss = "Apelle figlio di apollo fece una palla di pelle di pollo tutti i i pesci vennero a galla per guardare la palla di pelle di pollo fata da apelle figlio di apollùlo";
         //String ss ="Caratterizzato da un universo narrativo inedito, in cui Peter Parker è Spider-Man già da otto anni e combatte il crimine fra le strade (e i tetti!) di Manhattan, il gioco reinventa alcuni personaggi raccontando una storia appassionante, a maggior ragione per i fan dell'eroe Marvel.";
-      //String ss = "AABABABB";
+      //String ss = "banana";
 
-
-        StringBuilder ss = new StringBuilder();
+ StringBuilder ss = new StringBuilder();
         long lenn = 10;
         char[]gen = {'A','B','C','D','T','F'};
         for(int i = 0; i < lenn; i++)
             ss.append(gen[(int) (Math.random() * 6)]);
+
+
 
 
 
@@ -65,16 +66,7 @@ public class Main {
         Map<Character,List<String>> maw = MinimalAbsentWords.buildMAW(s);
         end = System.currentTimeMillis();
         List<String> listaa = MinimalAbsentWords.getMawAsList(maw);
-        for(String element : listaa) {
-            if (s.isSubstring(element) != -1) {
-                System.out.println("NEL TESTO:" + element);
-            } else {
-                if (s.isSubstring(element.substring(0, element.length() - 1)) != -1)
-                    System.out.println("ECCO LA MAW da 0 a (n -1):" + element.substring(0, element.length() - 1) + " MAW:" + element);
-                if(s.isSubstring(element.substring(1, element.length())) != -1)
-                    System.out.println("ECCO LE MAW da 1 a (n -1) :" + element.substring(1, element.length()) + " MAW:" + element);
-            }
-        }
 
+        System.out.println(listaa);
     }
 }

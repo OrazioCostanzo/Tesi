@@ -7,13 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo">
+    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="update 1.90&#10;&#10;ho provato ad creare bottom-up ma sembra ci sia un errore&#10;da controllare">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROVA.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PROVA.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MinimalAbsentWords.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suffix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suffix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SuffixArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SuffixArray.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660846059754</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="update 1.90&#10;&#10;ho provato ad creare bottom-up ma sembra ci sia un errore&#10;da controllare">
+      <created>1661359823925</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1661359823925</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -221,7 +226,8 @@
     <MESSAGE value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map ).&#10;   &#10;2. Da controllare la riga 185 max.get() da sistemare con max.isPresent() ... max.get()." />
     <MESSAGE value="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre" />
     <MESSAGE value="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo" />
+    <MESSAGE value="update 1.90&#10;&#10;ho provato ad creare bottom-up ma sembra ci sia un errore&#10;da controllare" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 1.90&#10;&#10;ho provato ad creare bottom-up ma sembra ci sia un errore&#10;da controllare" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -243,7 +249,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
-          <line>267</line>
+          <line>275</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
