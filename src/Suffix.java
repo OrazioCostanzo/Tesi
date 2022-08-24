@@ -46,6 +46,8 @@ public class Suffix implements Comparable<Suffix>{
 
     //Methods
     //------------------------------------------------------------------------------------------------------------------
+
+
     /**
      * This method creates an integer array that contains the indexes of the sorted suffixes.
      * Sorting algorithm. @see Arrays.

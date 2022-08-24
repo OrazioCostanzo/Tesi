@@ -7,11 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre">
-      <change afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
+    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROVA.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PROVA.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MinimalAbsentWords.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suffix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suffix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SuffixArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SuffixArray.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +31,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/MinimalAbsentWords.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/SuffixArray.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -56,6 +58,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
@@ -172,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660327604516</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo">
+      <created>1660846059754</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1660846059754</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -210,29 +220,35 @@
     <MESSAGE value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map )." />
     <MESSAGE value="Date: 8/7/2022.&#10;change 1.7.&#10;&#10;1. inserito i metodi &#10;   1.0 public int getLcpElement(int index).&#10;   1.1 public Map&lt;Integer,List&lt;Integer&gt;&gt; getLRS().&#10;   1.2 public Map&lt;Integer,String&gt; getLRSMap(Map&lt;Integer,List&lt;Integer&gt;&gt; map ).&#10;   &#10;2. Da controllare la riga 185 max.get() da sistemare con max.isPresent() ... max.get()." />
     <MESSAGE value="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre" />
-    <option name="LAST_COMMIT_MESSAGE" value="Date: 8/12/2022.&#10;change 1.8.&#10;&#10;1. inserito metodo getStrFre" />
+    <MESSAGE value="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Suffix.java</url>
-          <line>132</line>
+          <line>134</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SuffixArray.java</url>
-          <line>309</line>
+          <line>330</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
-          <line>61</line>
+          <line>6</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
+          <line>267</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Suffix.java</url>
-          <line>54</line>
+          <line>56</line>
           <properties class="Suffix" method="build">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -241,7 +257,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Suffix.java</url>
-          <line>149</line>
+          <line>151</line>
           <properties class="Suffix" method="getSA">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

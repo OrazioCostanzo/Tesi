@@ -175,15 +175,36 @@ public class  SuffixArray {
     //Getter
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Builds an Character[] by taking the (distinct) characters in the text.
+     * @param sa Suffix Array.
+     * @return Character[] array with al distinct characters in the text.
+     */
+    public static Character[] getAlphabet(SuffixArray sa){
+        String text = sa.getText().substring(0, sa.getText().length() - 1);// text without VIRTUAL_CHAR
+
+        return text.chars()
+                   .distinct()
+                   .mapToObj(element -> (char) element)
+                   .toArray(Character[]::new);
+    }
+
+
     //get string frequency
-// log2 (n) binary search + k + m  con m = lunghezza sottostringa da cercare e k = numero di vpolte che si ripete la sottostrigna , O(K)?
+    //log2 (n) binary search + k with k = number of times the substring repeats, O(max(log2 (n), k))?
+
+    /**
+     * Search a str in the suffix array, if exists return number of repetitions else return new int[]{0,0,0}
+     * @param str Substring of which we want to count the repetitions.
+     * @return int[]{n,start,end} : n = number of repetitions, range(start= first_substring_index, end= last_substring_index).
+     */
     public int[] getStrFre(String str){
         int first_index =(int) isSubstring(str);
         int index = first_index + 1;
         int str_len = str.length();
         String text = getText();
         int text_len = text.length();
-        int[] result = new int[]{0,0,0};
+        int[] result = new int[]{0,0,0}; // repetitions number, first index, last index
 
 
         if(first_index >= 0 && first_index < sa_index.length){
@@ -382,7 +403,7 @@ public class  SuffixArray {
     public static class SuffixArrayBuilder{
         //Fields
         //------------------------------------------------------------------------------------------------------------------
-        private static int FIRST_LCP_POSITION = 0;
+        private static int FIRST_LCP_POSITION = -1;
         private static String FILTER = "\\s+|\\W";
         private static String VIRTUAL_CHAR = "$"; //virtual character that does not belong to the alphabet of the text
         private static String REPLACE = "";
