@@ -1,4 +1,5 @@
 
+import java.awt.im.spi.InputMethod;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -7,16 +8,19 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
 
-       // String ss = "«Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum$»";
+        //tring ss ="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
        // String ss = "Apelle figlio di apollo fece una palla di pelle di pollo tutti i i pesci vennero a galla per guardare la palla di pelle di pollo fata da apelle figlio di apollùlo";
         //String ss ="Caratterizzato da un universo narrativo inedito, in cui Peter Parker è Spider-Man già da otto anni e combatte il crimine fra le strade (e i tetti!) di Manhattan, il gioco reinventa alcuni personaggi raccontando una storia appassionante, a maggior ragione per i fan dell'eroe Marvel.";
-      //String ss = "banana";
-
+      String ss = "abbabca";
+/*
  StringBuilder ss = new StringBuilder();
         long lenn = 10;
-        char[]gen = {'A','B','C','D','T','F'};
+        char[]gen = {'A','B'};
         for(int i = 0; i < lenn; i++)
-            ss.append(gen[(int) (Math.random() * 6)]);
+            ss.append(gen[(int) (Math.random() * 2)]);
+
+ */
+
 
 
 
@@ -26,10 +30,9 @@ public class Main {
 
 
         long start = System.currentTimeMillis();
-        SuffixArray s = SuffixArray.buildSuffixArray(ss.toString());
+        SuffixArray s = SuffixArray.buildSuffixArray("asqqqqdafdeqd","“wrgqarwgfrqf","adsfaewqqqqwfw","asdsadsa","zxfadsfadf");
         long end = System.currentTimeMillis();
         System.out.println("CREAZIONE SUFFIX ARRAY " + (end - start));
-
 
 
       int n = s.getText().length();
@@ -38,6 +41,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
 
 
 
@@ -61,12 +65,13 @@ public class Main {
 
 
  */
-
+       System.out.println(s.getLCSList(5));
         start = System.currentTimeMillis();
-        Map<Character,List<String>> maw = MinimalAbsentWords.buildMAW(s);
+       // Map<Character,List<String>> maw = MinimalAbsentWords.buildMAW(s);
         end = System.currentTimeMillis();
-        List<String> listaa = MinimalAbsentWords.getMawAsList(maw);
+       // List<String> listaa = MinimalAbsentWords.getMawAsList(maw);
 
-        System.out.println(listaa);
+
+
     }
 }

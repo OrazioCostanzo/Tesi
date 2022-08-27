@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -11,10 +12,11 @@ public class Suffix implements Comparable<Suffix>{
 
     //Fields
     //------------------------------------------------------------------------------------------------------------------
-    private static char PUPPET_CHAR = '$';
+    private static char PUPPET_CHAR = SuffixArray.Sentinel.first.getSentinel();
     private final int index;
     private int rank;
     private int next_rank;
+
     //------------------------------------------------------------------------------------------------------------------
 
 

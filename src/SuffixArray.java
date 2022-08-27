@@ -3,6 +3,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class manages an array of integers (suffix array) and the text on which the suffix array has been built.
@@ -24,6 +25,7 @@ public class  SuffixArray {
      */
     private Map<Character, Integer> swnc_index;
     private String text; //text
+    private List<String> strings;
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -40,12 +42,14 @@ public class  SuffixArray {
         this.sa_index = sa_index;
         this.text = text;
         this.isa_index = new Integer[sa_length];
-        this.left_char_array = new Character[sa_length];
-        this.right_char_array = new Character[sa_length];
         this.lcp = new Integer[sa_length] ;
 
         for(int i=0 ; i < sa_length; i++)
             this.isa_index[sa_index[i]] = i;
+    }
+
+    public SuffixArray() {
+         this(new Integer[]{0},"");
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -110,10 +114,11 @@ public class  SuffixArray {
      * @see java.util.Arrays
      */
     public static SuffixArray buildSuffixArray(String text){
-       /* String txt = Arrays.stream(text)
-                           .reduce("",(left_txt, right_txt) -> left_txt + right_txt);
-       */
         return SuffixArrayBuilder.buildSuffixArray(text);
+    }
+
+    public static SuffixArray buildSuffixArray(String... strings){
+        return SuffixArrayBuilder.buildSuffixArray(strings);
     }
 
     /**
@@ -175,6 +180,9 @@ public class  SuffixArray {
     //Getter
     //------------------------------------------------------------------------------------------------------------------
 
+    public List<String> getStrings(){
+        return this.strings;
+    }
     /**
      * Builds an Character[] by taking the (distinct) characters in the text.
      * @param sa Suffix Array.
@@ -286,7 +294,107 @@ public class  SuffixArray {
     public int getSWNCElement(char c){
         return this.swnc_index.get(c);
     }
+    //long common bubstring
+    public List<String> getLCSList(int k){
+        List<String> list_lcp = new ArrayList();
 
+        Integer[][] bound = new Integer[this.strings.size()][2];
+
+        if(k > 0 && k <= strings.size()) {
+
+            int lower_bound = 0;
+            int upper_bound;
+            int index = 0;
+
+            int[] counter = new int[this.strings.size()];
+            Arrays.fill(counter, 0);
+            int first = (int) Arrays.stream(this.lcp).filter(element -> element == -1).count();
+            int max_lcp = 0;
+            Integer[] window = new Integer[]{first,first};
+
+
+            for (String str : this.strings) {
+                upper_bound = str.length() - 1 + (lower_bound);
+                bound[index][0] = lower_bound;
+                bound[index++][1] = upper_bound;
+                lower_bound = upper_bound + 2;
+            }
+
+
+
+
+            for (int i = first; i < this.lcp.length  ; i++) {
+                for(int el = 0; el < bound.length; el++){
+                    if(this.getSaElement(window[1]) >= bound[el][0] && this.getSaElement(window[1]) <= bound[el][1]){
+                        counter[el]++;
+                        break;
+                    }
+                }
+
+                long num_el = Arrays.stream(counter).filter(el -> el > 0).count();
+                //controllo se la finistra ha k suffissi consecutivi di k stringhe
+                while(num_el == k){
+                    //prendo il massimo delle ripetizioni consecutive di suffissi appartenenti alla stessa stringa
+                    int n_element = Arrays.stream(counter).max().getAsInt();
+                    // se ci sono più suffissi della stessa stringa consecutivi diniminuisco di uno la finestra dal top
+                    // sono i primi consecutivi o nel mezz
+                    if(n_element > 1){
+                        // tolgo il primo elmento e diminuisco la finestra
+                        for(int el = 0; el < bound.length; el++){
+                            if(this.getSaElement(window[0]) >= bound[el][0] && this.getSaElement(window[0]) <= bound[el][1]){
+                                counter[el]--;
+                                break;
+                            }
+                        }
+                        window[0]++;
+                        num_el = Arrays.stream(counter).filter(el -> el > 0).count();
+                    }
+                    if(n_element  == 1){
+
+                        //prendo lcp minimo tra i suffissi consecutivi
+                        int  min_lcp_temp = Integer.MAX_VALUE;
+                        int  min_index = this.getLcpElement(window[0] + 1);
+
+                        for(int h = window[0] + 1; h <= window[1]; h++){
+                            if(min_lcp_temp > this.getLcpElement(h)){
+                                min_lcp_temp = this.getLcpElement(h);
+                                min_index = this.getSaElement(h);
+                            }
+                        }
+
+                        if(min_lcp_temp > max_lcp){
+                            max_lcp = min_lcp_temp;
+                            list_lcp = new ArrayList<>();
+                            list_lcp.add(this.getText().substring(min_index, min_index + min_lcp_temp));
+                        }
+                        if(min_lcp_temp == max_lcp){
+                            list_lcp.add(this.getText().substring(min_index, min_index + min_lcp_temp));
+                        }
+                        // tolgo il primo elmento e diminuisco la finestra
+                        for(int el = 0; el < bound.length; el++){
+                            if(this.getSaElement(window[0]) >= bound[el][0] && this.getSaElement(window[0]) <= bound[el][1]){
+                                counter[el]--;
+                                break;
+                            }
+                        }
+                        window[0]++;
+                        num_el = Arrays.stream(counter).filter(el -> el > 0).count();
+                    }
+                }
+                window[1]++;
+                System.out.println(num_el);
+            }
+        }
+
+        return list_lcp.stream().distinct().toList();
+    }
+
+    public static List<String> getLCSList(String s1, String s2){
+        SuffixArray s = SuffixArray.buildSuffixArray(s1,s2);
+        for(int i=0; i<s.getSa().length; i++)
+            System.out.println("lcp " +s.getLcpElement(i) + " " + s.text.substring(s.getSaElement(i)));
+        return  s.getLCSList(2);
+    }
 
     /**
      * Get the longest repeated substring.
@@ -306,7 +414,6 @@ public class  SuffixArray {
                      })
                      .collect(Collectors.groupingBy(element -> getLcpElement(getIsaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
     }
-
 
     public Map<Integer,String> getLRSMap(Map<Integer,List<Integer>> map ){
           return   map.values()
@@ -361,6 +468,9 @@ public class  SuffixArray {
     private void setLcp(long text_position, int len) {
         this.lcp[(int) text_position] = len;
     }
+    private void setLcpSentinel(int index){
+        this.lcp[index] = SuffixArrayBuilder.FIRST_LCP_POSITION;
+    }
 
     /**
      * Set the new VIRTUAL_CHAR
@@ -407,6 +517,7 @@ public class  SuffixArray {
         private static String FILTER = "\\s+|\\W";
         private static String VIRTUAL_CHAR = "$"; //virtual character that does not belong to the alphabet of the text
         private static String REPLACE = "";
+
         //------------------------------------------------------------------------------------------------------------------
 
 
@@ -419,46 +530,32 @@ public class  SuffixArray {
         }
 
         private static SuffixArray buildSuffixArray(String text) {
-            text = SuffixArrayBuilder.textCleaner(text) + VIRTUAL_CHAR;
-            //return  buildCAs(buildLcpArray(Suffix.buildSuffixArray(text)));
+            text = SuffixArrayBuilder.textCleaner(text) + Sentinel.first.getSentinel();
             return  buildLcpArray(Suffix.buildSuffixArray(text));
         }
 
-        // metodo che associa ad ogni suffisso il carattere subito prima ,left char
-        // da aggustare per o suffissi che hanno lcp = 0
-        //buil left and right char array
-       /* private static SuffixArray buildCAs(SuffixArray sa_array) {
-            AtomicInteger index = new AtomicInteger(-1);
-            String text = sa_array.getText();
-            int sa_index_len = sa_array.sa_index.length;
+        private static SuffixArray buildSuffixArray(String... strings){
+            if(strings.length <= Sentinel.SIZE_SENTINEL && strings.length >= 2) {
+                List<String> temp_list = Arrays.stream(strings).toList();
 
-            Arrays.stream(sa_array.getSa())
-                  .forEach(current_index -> {
-                      index.getAndIncrement();
+                AtomicInteger index = new AtomicInteger(0);
+                int sentinel_size = strings.length;
+                Sentinel[] sentinels = Sentinel.values();
+                SuffixArray s = buildLcpArray(Suffix.buildSuffixArray(Arrays.stream(strings)
+                        .limit(Sentinel.SIZE_SENTINEL)
+                        .map(string -> SuffixArrayBuilder.textCleaner(string))
+                        .map(string -> string + sentinels[index.getAndIncrement()].getSentinel())
+                        .reduce("", (s1, s2) -> s1 + s2)));
 
-                      if((current_index != 0) && (current_index != sa_index_len - 1)) {
-                          if(sa_array.lcp[sa_array.isa_index[current_index]] == 0)
-                              sa_array.right_char_array[index.get()] = text.charAt(current_index + 1);
-                          else
-                              sa_array.right_char_array[index.get()] = text.charAt(current_index + sa_array.lcp[sa_array.isa_index[current_index]]);
-                          sa_array.left_char_array[index.get()] = text.charAt(current_index - 1);
-                      }
-                      if(current_index == 0){
-                          sa_array.left_char_array[index.get()] = null;
-                          if(sa_array.lcp[sa_array.isa_index[current_index]] == 0)
-                              sa_array.right_char_array[index.get()] = text.charAt(current_index + 1);
-                          else
-                              sa_array.right_char_array[index.get()] = text.charAt(current_index + sa_array.lcp[sa_array.isa_index[current_index]]);
-                      }
-                      if(current_index == sa_index_len -1) {
-                          sa_array.left_char_array[index.get()] = text.charAt(current_index - 1);
-                          sa_array.right_char_array[index.get()] = null;
-                      }
-
-                  });
-            return sa_array;
+                Stream.iterate(0, lcp_index -> ++lcp_index).limit(sentinel_size).forEach(lcp_index -> s.setLcpSentinel(lcp_index));
+                s.strings = temp_list;
+                return s;
+            }
+            return new SuffixArray();
         }
-*/
+
+
+
         private static SuffixArray buildLcpArray(SuffixArray sa_array) {
             int max_lcp_element=0;
             int len = 0;  // how many characters remain
@@ -468,21 +565,21 @@ public class  SuffixArray {
             Integer[] sa_index = sa_array.getSa();
             String text = sa_array.getText();
 
-
-            for(int i = 0; i < sa_array_len; i++){
-                sa_position = sa_array.getIsaElement(i);
-                if(sa_position > 0) {    // text_position == 0 when i = sa_array.length - 1 (end sa_array)
-                    prev = sa_index[(int) sa_position - 1];  // Take a previous index
-                    while(text.charAt(i + len) == text.charAt((int) (prev + len))){
-                        len = len + 1;
-                    }     //while same char
-                    sa_array.setLcp(sa_position,len);
-                    max_lcp_element = Math.max(max_lcp_element, len);
-                    len = Math.max((len - 1), 0);  //decrease number of equal characters
-                }else{
-                    sa_array.setLcp(sa_position, FIRST_LCP_POSITION);
+                for (int i = 0; i < sa_array_len; i++) {
+                    sa_position = sa_array.getIsaElement(i);
+                    if (sa_position > 0) {    // text_position == 0 when i = sa_array.length - 1 (end sa_array)
+                        prev = sa_index[(int) sa_position - 1];  // Take a previous index
+                        while (text.charAt(i + len) == text.charAt((int) (prev + len))) {
+                            len = len + 1;
+                        }     //while same char
+                        sa_array.setLcp(sa_position, len);
+                        max_lcp_element = Math.max(max_lcp_element, len);
+                        len = Math.max((len - 1), 0);  //decrease number of equal characters
+                    } else {
+                        sa_array.setLcp(sa_position, FIRST_LCP_POSITION);
+                    }
                 }
-            }
+
             sa_array.max_lcp = max_lcp_element;
             return sa_array;
         }
@@ -520,4 +617,24 @@ public class  SuffixArray {
         //------------------------------------------------------------------------------------------------------------------
     }
     //-----------------------------------------------------------------------------------------------------------------
+
+    protected enum Sentinel{
+        first('!'),
+        second('\"'),
+        third('#'),
+        fourth('$'),
+        fifth('%'),
+        sixth('&');
+
+        private final static int SIZE_SENTINEL = Sentinel.values().length;
+        char sentinel;
+        Sentinel(char c){
+            sentinel = c;
+        }
+
+        public char getSentinel(){
+            return sentinel;
+        }
+
+    }
 }
