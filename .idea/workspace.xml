@@ -7,11 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="update 1.91&#10;&#10;seguendo l'algoritmo orginale forse ci siamo">
+    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune">
+      <change afterPath="$PROJECT_DIR$/src/Text.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROVA.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PROVA.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suffix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suffix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MinimalAbsentWords.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SuffixArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SuffixArray.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -195,7 +196,28 @@
       <option name="project" value="LOCAL" />
       <updated>1661361722977</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update 1.91&#10;&#10;seguendo l'algoritmo orginale forse ci siamo">
+      <created>1661609998781</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1661609998781</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune">
+      <created>1661610040164</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1661610040164</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune">
+      <created>1661610055149</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1661610055149</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -236,7 +258,8 @@
     <MESSAGE value="Date: 8/18/2022.&#10;change 1.9.&#10;&#10;1. inserito classe Minimal absent words&#10;   - inserito metodo topdown&#10;   - inseriti altri metodi di stampa coma printB2 e printB1&#10;   -inserito il metodo getMAW che non è completo" />
     <MESSAGE value="update 1.90&#10;&#10;ho provato ad creare bottom-up ma sembra ci sia un errore&#10;da controllare" />
     <MESSAGE value="update 1.91&#10;&#10;seguendo l'algoritmo orginale forse ci siamo" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 1.91&#10;&#10;seguendo l'algoritmo orginale forse ci siamo" />
+    <MESSAGE value="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,12 +276,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
-          <line>275</line>
+          <line>302</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SuffixArray.java</url>
-          <line>554</line>
+          <line>539</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
@@ -278,6 +301,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
+          <line>331</line>
+          <properties class="MinimalAbsentWords" method="isMaw">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

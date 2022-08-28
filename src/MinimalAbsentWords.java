@@ -74,6 +74,7 @@ public class MinimalAbsentWords {
         boolean[][] interval = new boolean[alphabet.size()][max_lcp + 2];
         int pre_char;
         ArrayDeque<Integer> lifo_lcp = new ArrayDeque<>();
+        ArrayDeque<Integer> lifo_mem = new ArrayDeque<>();
         Arrays.stream(interval).forEach(row -> Arrays.fill(row,false));
         Integer top_stack = 0;
         lifo_lcp.push(top_stack);
@@ -120,6 +121,23 @@ public class MinimalAbsentWords {
 
 
             if(sa_index[i] > 0) {
+                pre_char = alphabet.get(text.charAt(sa_index[i] - 1));
+                while(!lifo_lcp.isEmpty()){
+                    top_stack = lifo_lcp.pop();
+                    lifo_mem.push(top_stack);
+                    if(interval[pre_char][top_stack] == true) break;
+                    interval[pre_char][top_stack] = true;
+                }
+                while (!lifo_mem.isEmpty()){
+                    top_stack = lifo_mem.pop();
+                    lifo_lcp.push(top_stack);
+                }
+                interval[pre_char][lcp[i]] = true;
+            }
+            else {
+                pre_char = -1;
+            }
+                /*
                 Iterator<Integer> stack_it = lifo_lcp.iterator();
                 pre_char = alphabet.get(text.charAt(sa_index[i] - 1));
 
@@ -132,7 +150,9 @@ public class MinimalAbsentWords {
             }
             else {
                 pre_char = -1;
-            }
+            }*/
+
+
 
 
 
@@ -151,10 +171,17 @@ public class MinimalAbsentWords {
                 b2[pre_char][i << 1] = true;
             }
 
+            top_stack = lifo_lcp.pop();
+            if(top_stack != lcp[i]){
+                lifo_lcp.push(top_stack);
+                top_stack = lcp[i];
+            }
+            lifo_lcp.push(top_stack);
             // se lcp[i] è diverso dall'elememento in cimo lo stack lo inserisco.
-            if(lifo_lcp.peek() != lcp[i]){
+           /*if(lifo_lcp.peek() != lcp[i]){
                 lifo_lcp.push(lcp[i]);
             }
+            */
 
 
 
@@ -300,6 +327,18 @@ public class MinimalAbsentWords {
         Arrays.stream(alphabet)
                 .forEach(c -> maw.get(c).stream().forEach(element -> maw_list.add(element)));
          return maw_list;
+    }
+// time log2(strings.length) * 3 ==> O(log2(string.length)?
+    public static boolean isMaw(String maw, String... strings){
+        SuffixArray sa = SuffixArray.buildSuffixArray(strings);;
+        String left = maw.substring(0,maw.length() - 1);
+        String right = maw.substring(1,maw.length());
+
+        if(sa.isSubstring(left) >= 0  && sa.isSubstring(right) >= 0 && sa.isSubstring(maw) == -1){
+            return  true;
+        }
+        return false;
+
     }
 
     public static List<String> getMawAsListSW(Map<Character,List<String>> maw, char c){

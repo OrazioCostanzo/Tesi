@@ -17,8 +17,6 @@ public class  SuffixArray {
     private Integer[] isa_index; //text array index
     private Integer[] lcp; //lcp array
     private int max_lcp;
-    private Character[] left_char_array;
-    private Character[] right_char_array;
     /*
     "start with new char" is an array that contains the indexes of the suffix array which have respectively lcp = 0,
      it means that there will be a new succession of suffixes starting with a new character.
@@ -276,18 +274,7 @@ public class  SuffixArray {
     public int getLcpElement(int index){
         return this.lcp[index];
     }
-    public Character[] getLCA(){
-        return left_char_array;
-    }
-    public Character getLCAElement(int index) {
-        return left_char_array[index];
-    }
-    public Character[] getRCA(){
-        return this.right_char_array;
-    }
-    public Character getRCAElement(int index){
-        return this.right_char_array[index];
-    }
+
     public Map<Character,Integer> getSWNC(){
         return this.swnc_index;
     }
@@ -297,10 +284,12 @@ public class  SuffixArray {
     //long common bubstring
     public List<String> getLCSList(int k){
         List<String> list_lcp = new ArrayList();
-
+        if(this.strings == null){
+            return  new ArrayList<>();
+        }
         Integer[][] bound = new Integer[this.strings.size()][2];
 
-        if(k > 0 && k <= strings.size()) {
+        if(k > 0 && k <= strings.size() && k < Sentinel.SIZE_SENTINEL) {
 
             int lower_bound = 0;
             int upper_bound;
@@ -312,9 +301,9 @@ public class  SuffixArray {
             int max_lcp = 0;
             Integer[] window = new Integer[]{first,first};
 
-
+            System.out.println(this.strings);
             for (String str : this.strings) {
-                upper_bound = str.length() - 1 + (lower_bound);
+                upper_bound = (str.length() - 1) + (lower_bound);
                 bound[index][0] = lower_bound;
                 bound[index++][1] = upper_bound;
                 lower_bound = upper_bound + 2;
@@ -386,15 +375,10 @@ public class  SuffixArray {
             }
         }
 
+        //Arrays.stream(bound).forEach(e -> System.out.println(e[0] + " " + e[1] ));
         return list_lcp.stream().distinct().toList();
     }
 
-    public static List<String> getLCSList(String s1, String s2){
-        SuffixArray s = SuffixArray.buildSuffixArray(s1,s2);
-        for(int i=0; i<s.getSa().length; i++)
-            System.out.println("lcp " +s.getLcpElement(i) + " " + s.text.substring(s.getSaElement(i)));
-        return  s.getLCSList(2);
-    }
 
     /**
      * Get the longest repeated substring.
@@ -635,6 +619,5 @@ public class  SuffixArray {
         public char getSentinel(){
             return sentinel;
         }
-
     }
 }
