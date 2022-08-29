@@ -10,7 +10,7 @@ public class Main {
         //String ss ="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
         //String ss = "Apelle figlio di apollo fece una palla di pelle di pollo tutti i pesci vennero a galla per guardare la palla di pelle di pollo fata da apelle figlio di apollo";
         //  String ss ="Caratterizzato da un universo narrativo inedito, in cui Peter Parker è Spider-Man già da otto anni e combatte il crimine fra le strade (e i tetti!) di Manhattan, il gioco reinventa alcuni personaggi raccontando una storia appassionante, a maggior ragione per i fan dell'eroe Marvel.";
-        String ss = "AABABABB";
+        String ss = "banana";
 /*
  StringBuilder ss = new StringBuilder();
         long lenn = 10;
@@ -26,7 +26,7 @@ public class Main {
 
 
         long start = System.currentTimeMillis();
-        SuffixArray s = SuffixArray.buildSuffixArray(ss);
+        SuffixArray s = SuffixArray.buildSuffixArray("banana","ananab");
         long end = System.currentTimeMillis();
         System.out.println("CREAZIONE SUFFIX ARRAY " + (end - start));
 
@@ -43,10 +43,9 @@ public class Main {
 
         // List<String> listaa = MinimalAbsentWords.getMawAsList(maw);
 
-
-        Text tt = new Text(ss);
-        Text.writeFile(tt.getMaw(), "C:/Users/provv/Desktop/testo.txt");
-
+/*
+        Text tt = new Text(new File ("C:/Users/provv/Desktop/in.txt"));
+        Text.writeFile(tt.getStrFre("um"), "C:/Users/provv/Desktop/testo.txt","prova header");*/
 
     }
 }
