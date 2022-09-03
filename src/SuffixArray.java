@@ -17,11 +17,6 @@ public class  SuffixArray {
     private Integer[] isa_index; //text array index
     private Integer[] lcp; //lcp array
     private int max_lcp;
-    /*
-    "start with new char" is an array that contains the indexes of the suffix array which have respectively lcp = 0,
-     it means that there will be a new succession of suffixes starting with a new character.
-     */
-    private Map<Character, Integer> swnc_index;
     private String text; //text
     private List<String> strings;
     //------------------------------------------------------------------------------------------------------------------
@@ -205,7 +200,7 @@ public class  SuffixArray {
      * @return int[]{n,start,end} : n = number of repetitions, range(start= first_substring_index, end= last_substring_index).
      */
     public int[] getStrFre(String str){
-        int first_index =(int) isSubstring(str);
+        int first_index = (int) isSubstring(str);
         int index = first_index + 1;
         int str_len = str.length();
         String text = getText();
@@ -275,12 +270,6 @@ public class  SuffixArray {
         return this.lcp[index];
     }
 
-    public Map<Character,Integer> getSWNC(){
-        return this.swnc_index;
-    }
-    public int getSWNCElement(char c){
-        return this.swnc_index.get(c);
-    }
     //long common bubstring
     public List<String> getLCSList(int k){
         List<String> list_lcp = new ArrayList();
@@ -301,7 +290,7 @@ public class  SuffixArray {
             int max_lcp = 0;
             Integer[] window = new Integer[]{first,first};
 
-            System.out.println(this.strings);
+
             for (String str : this.strings) {
                 upper_bound = (str.length() - 1) + (lower_bound);
                 bound[index][0] = lower_bound;
@@ -371,11 +360,9 @@ public class  SuffixArray {
                     }
                 }
                 window[1]++;
-                System.out.println(num_el);
             }
         }
 
-        //Arrays.stream(bound).forEach(e -> System.out.println(e[0] + " " + e[1] ));
         return list_lcp.stream().distinct().toList();
     }
 

@@ -22,17 +22,6 @@ public class MinimalAbsentWords {
         bottomUp(text, sa_index, lcp, b1, b2, alphabet, sa.getMax_lcp());
 
 
-
-/*
-        for(int row = 0; row < b2.length; row++){
-            for(int col = 0; col < b1[row].length; col++){
-                if(col % b2[row].length == 0)
-                    System.out.println();
-                System.out.print("RIGA:"+row+" COLONA:"+col + ":" + b2[row][col]);
-            }
-        }
-*/
-
         return   getMAW(text,sa_index,lcp,b1,b2, alphabet);
 
 
@@ -137,23 +126,6 @@ public class MinimalAbsentWords {
             else {
                 pre_char = -1;
             }
-                /*
-                Iterator<Integer> stack_it = lifo_lcp.iterator();
-                pre_char = alphabet.get(text.charAt(sa_index[i] - 1));
-
-                while(stack_it.hasNext()){
-                    top_stack = stack_it.next();
-                    if(interval[pre_char][top_stack] == true) break;
-                    interval[pre_char][top_stack] = true;
-                }
-                interval[pre_char][lcp[i]] = true;
-            }
-            else {
-                pre_char = -1;
-            }*/
-
-
-
 
 
             if(i > 0 && lcp[i] > 0 && sa_index[i - 1] > 0){
@@ -177,14 +149,6 @@ public class MinimalAbsentWords {
                 top_stack = lcp[i];
             }
             lifo_lcp.push(top_stack);
-            // se lcp[i] è diverso dall'elememento in cimo lo stack lo inserisco.
-           /*if(lifo_lcp.peek() != lcp[i]){
-                lifo_lcp.push(lcp[i]);
-            }
-            */
-
-
-
 
         }
     }
@@ -221,11 +185,6 @@ public class MinimalAbsentWords {
 
         for(int i = (n - 1); i >= 0; i--){
 
-            /*stack_it = lifo_lcp.iterator();
-            top_stack = stack_it.next();
-            next_lcp = lcp[i] + 1 ;
-
-             */
             top_stack = lifo_lcp.pop();
             next_lcp = lcp[i] + 1;
 
@@ -312,7 +271,7 @@ public class MinimalAbsentWords {
         Arrays.stream(alphabet)
                 .forEach(c -> maw.get(c).stream().forEach(System.out::println));
     }
-
+//START WITH
     public static void printMawSW(Map<Character,List<String>> maw, char c){
         if(maw.get(c) != null)
             maw.get(c).stream().forEach(System.out::println);

@@ -7,11 +7,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="update 1.93 data 28/08/22&#10;implementata classe text e metodo statio di Minimalabsetword class , isMAW">
-      <change afterPath="$PROJECT_DIR$/src/FileManager.java" afterDir="false" />
+    <list default="true" id="66e0018c-0358-4c47-beed-2f1c944f606b" name="Changes" comment="update 1.94 data 29/08/22&#10;aggiunti alcune metodi classe text&#10;aggiunta classe FileMAnager">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROVA.txt" beforeDir="false" afterPath="$PROJECT_DIR$/PROVA.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MinimalAbsentWords.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MinimalAbsentWords.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SuffixArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SuffixArray.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Text.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Text.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -223,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661694382493</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="update 1.94 data 29/08/22&#10;aggiunti alcune metodi classe text&#10;aggiunta classe FileMAnager">
+      <created>1661784395834</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1661784395834</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,7 +275,8 @@
     <MESSAGE value="update 1.91&#10;&#10;seguendo l'algoritmo orginale forse ci siamo" />
     <MESSAGE value="update 1.92&#10;implementato e da testare il torvare in k stringhe le sottostringhe in comune" />
     <MESSAGE value="update 1.93 data 28/08/22&#10;implementata classe text e metodo statio di Minimalabsetword class , isMAW" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 1.93 data 28/08/22&#10;implementata classe text e metodo statio di Minimalabsetword class , isMAW" />
+    <MESSAGE value="update 1.94 data 29/08/22&#10;aggiunti alcune metodi classe text&#10;aggiunta classe FileMAnager" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 1.94 data 29/08/22&#10;aggiunti alcune metodi classe text&#10;aggiunta classe FileMAnager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -283,13 +293,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
-          <line>302</line>
+          <line>261</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SuffixArray.java</url>
-          <line>539</line>
+          <line>526</line>
           <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Text.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Suffix.java</url>
@@ -311,7 +326,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/MinimalAbsentWords.java</url>
-          <line>331</line>
+          <line>290</line>
           <properties class="MinimalAbsentWords" method="isMaw">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

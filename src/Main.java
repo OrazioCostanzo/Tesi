@@ -21,31 +21,10 @@ public class Main {
  */
 
 
+       Text t = new Text(new File("C:/Users/provv/Desktop/in.txt"));
+        System.out.println(t.getNoWordChar());
+        System.out.println(t.getWordFre());
 
-
-
-
-        long start = System.currentTimeMillis();
-        SuffixArray s = SuffixArray.buildSuffixArray("banana","ananab");
-        long end = System.currentTimeMillis();
-        System.out.println("CREAZIONE SUFFIX ARRAY " + (end - start));
-
-
-      int n = s.getText().length();
-      try(PrintWriter writer = new PrintWriter("PROVA.txt")){
-            for(int i=0 ; i<n ; i++) writer.println("LCP INDEX: " + s.getLcpElement(i) +" SA INDEX:"  + s.getSaElement(i) + " TA INDEX: " + s.getIsaElement(i) + " SUFFISSO:" +  s.getText().substring(s.getSaElement(i)));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        // Map<Character,List<String>> maw = MinimalAbsentWords.buildMAW(s);
-
-        // List<String> listaa = MinimalAbsentWords.getMawAsList(maw);
-
-/*
-        Text tt = new Text(new File ("C:/Users/provv/Desktop/in.txt"));
-        Text.writeFile(tt.getStrFre("um"), "C:/Users/provv/Desktop/testo.txt","prova header");*/
 
     }
 }
