@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
  /**
  * A class that uses methods for "pattern matching" via suffix arrays and/or streams.
  */
