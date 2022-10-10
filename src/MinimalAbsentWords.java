@@ -4,9 +4,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The purpose of this class is to search for MAWs in a text.
+ */
 public class MinimalAbsentWords {
 
-
+    /**
+     * Returns a map containing the minimal absent words grouped by the first character.
+     * @param sa the suffix array on which to build the map.
+     * @return returns a map with
+     * key: first character
+     * value: minimal absent words.
+     */
     public static Map<Character,List<String>>  buildMAW(SuffixArray sa){
         Map<Character, Integer> alphabet = getAlphabetMap(SuffixArray.getAlphabet(sa));
         boolean[][] b1 = new boolean[alphabet.size()][(sa.getText().length() - 1) << 1];
@@ -106,8 +115,6 @@ public class MinimalAbsentWords {
                 // rimetto nello stack il prefisso comune <= lcp[i]
                 lifo_lcp.push(top_stack);
             }
-
-
 
             if(sa_index[i] > 0) {
                 pre_char = alphabet.get(text.charAt(sa_index[i] - 1));
@@ -266,12 +273,22 @@ public class MinimalAbsentWords {
                      .collect(Collectors.toMap(key -> key, value -> index.getAndIncrement()));
     }
 
+    /**
+     * Print all the MAW found.
+     * @param maw map containing all MAWs.
+     */
     public static void printMaw(Map<Character,List<String>> maw){
         Character[] alphabet = maw.keySet().toArray(Character[]::new);
         Arrays.stream(alphabet)
                 .forEach(c -> maw.get(c).stream().forEach(System.out::println));
     }
 //START WITH
+
+    /**
+     * Print all the MAW found start with "c".
+     * @param maw map containing all MAWs.
+     * @param c the first character to search on.
+     */
     public static void printMawSW(Map<Character,List<String>> maw, char c){
         if(maw.get(c) != null)
             maw.get(c).stream().forEach(System.out::println);
@@ -279,6 +296,11 @@ public class MinimalAbsentWords {
             System.out.println("empty list");
     }
 
+    /**
+     * Returns all MAWs in a list.
+     * @param maw map containing all MAWs.
+     * @return the list with the MAW.
+     */
     public static List<String> getMawAsList(Map<Character,List<String>> maw){
         Character[] alphabet = maw.keySet().toArray(Character[]::new);
         ArrayList<String> maw_list = new ArrayList<>();
@@ -288,8 +310,15 @@ public class MinimalAbsentWords {
          return maw_list;
     }
 // time log2(strings.length) * 3 ==> O(log2(string.length)?
+
+    /**
+     * Checks if a string passed as a parameter is a MAW in a suffix array built on a list of strings.
+     * @param maw string to check.
+     * @param strings list of strings on which to build the suffix array.
+     * @return returns true if "maw" is a MAW or false otherwise.
+     */
     public static boolean isMaw(String maw, String... strings){
-        SuffixArray sa = SuffixArray.buildSuffixArray(strings);;
+        SuffixArray sa = SuffixArray.buildSuffixArray(strings);
         String left = maw.substring(0,maw.length() - 1);
         String right = maw.substring(1,maw.length());
 
@@ -299,15 +328,17 @@ public class MinimalAbsentWords {
         return false;
 
     }
-
+    /**
+     * Returns all MAWs in a list starting with "c".
+     * @param maw map containing all MAWs.
+     * @param c the first character to search on.
+     */
     public static List<String> getMawAsListSW(Map<Character,List<String>> maw, char c){
         if(maw.get(c) != null) {
             ArrayList<String> maw_list = new ArrayList<>();
             return maw_list = new ArrayList<>(maw.get(c).stream().toList());
         }
         return null;
-
-
     }
 
 }

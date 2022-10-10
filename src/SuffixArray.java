@@ -109,7 +109,15 @@ public class  SuffixArray {
     public static SuffixArray buildSuffixArray(String text){
         return SuffixArrayBuilder.buildSuffixArray(text);
     }
-
+    /**
+     * Call Suffix.buildSuffixArray(text) to build a suffix array.
+     * Suffix.buildSuffixArray(text) ==> build(initialize(text).
+     * This method creates an integer array that contains the indexes of the sorted suffixes.
+     * Sorting algorithm from Arrays class.
+     * @param strings Create suffix array from more strings.
+     * @return return a SuffixArray object.
+     * @see java.util.Arrays
+     */
     public static SuffixArray buildSuffixArray(String... strings){
         return SuffixArrayBuilder.buildSuffixArray(strings);
     }
@@ -134,6 +142,12 @@ public class  SuffixArray {
                 .reduce("", String::concat);
     }
 //if existed, return position index
+
+    /**
+     * Check if there is a substring in the suffix array (binarysearch).
+     * @param string String to search for.
+     * @return if it exists, it returns a positive long, otherwise -1.
+     */
     public long isSubstring(String string){
         return binarySearch(this.sa_index, string);
     }
@@ -172,6 +186,7 @@ public class  SuffixArray {
 
     //Getter
     //------------------------------------------------------------------------------------------------------------------
+
 
     public List<String> getStrings(){
         return this.strings;
@@ -234,6 +249,10 @@ public class  SuffixArray {
         return result;
     }
 
+    /**
+     * Returns the maximum element of the lcp array.
+     * @return An integer indicating the maximum.
+     */
     public int getMax_lcp(){
         return this.max_lcp;
     }
@@ -244,6 +263,12 @@ public class  SuffixArray {
     public Integer[] getSa() {
         return sa_index;
     }
+
+    /**
+     * Returns the element of the suffix array in the index passed as a parameter.
+     * @param index index passed as a parameter.
+     * @return returns an integer indicating the starting index in the string on which the suffix array was built.
+     */
     public int getSaElement(int index){
         return sa_index[index];
     }
@@ -255,6 +280,11 @@ public class  SuffixArray {
     public Integer[] getIsa() {
         return isa_index;
     }
+    /**
+     * Returns the element of the inverse suffix array in the index passed as a parameter.
+     * @param index index passed as a parameter.
+     * @return returns the position in the suffix array where to find the index passed to parameter.
+     */
     public  int getIsaElement(int index){
         return isa_index[index];
     }
@@ -266,19 +296,32 @@ public class  SuffixArray {
     public Integer[] getLcp() {
         return lcp;
     }
+    /**
+     * Returns the element of the lcp array in the index passed as a parameter.
+     * @param index index passed as a parameter.
+     * @return returns the position in the suffix array where to find the index passed to parameter.
+     */
     public int getLcpElement(int index){
         return this.lcp[index];
     }
 
-    //long common bubstring
+    //long common substring
+
+    /**
+     * Constructs a list containing the longest common substrings among k strings.
+     * @param k the number of strings we want to find LCS for.
+     * @return The list with the LCS ( if exist).
+     */
     public List<String> getLCSList(int k){
+        long start = System.currentTimeMillis();
+
         List<String> list_lcp = new ArrayList();
         if(this.strings == null){
             return  new ArrayList<>();
         }
         Integer[][] bound = new Integer[this.strings.size()][2];
 
-        if(k > 0 && k <= strings.size() && k < Sentinel.SIZE_SENTINEL) {
+        if(k > 1 && k <= strings.size() && k < Sentinel.SIZE_SENTINEL) {
 
             int lower_bound = 0;
             int upper_bound;
@@ -363,6 +406,8 @@ public class  SuffixArray {
             }
         }
 
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
         return list_lcp.stream().distinct().toList();
     }
 
@@ -386,6 +431,7 @@ public class  SuffixArray {
                      .collect(Collectors.groupingBy(element -> getLcpElement(getIsaElement(element)))); // get map with K = number of LRS  and V = List of index in the text
     }
 
+    //longest repeating substring
     public Map<Integer,String> getLRSMap(Map<Integer,List<Integer>> map ){
           return   map.values()
                        .stream()
@@ -484,7 +530,7 @@ public class  SuffixArray {
     public static class SuffixArrayBuilder{
         //Fields
         //------------------------------------------------------------------------------------------------------------------
-        private static int FIRST_LCP_POSITION = -1;
+        private static final int FIRST_LCP_POSITION = -1;
         private static String FILTER = "\\s+|\\W";
         private static String VIRTUAL_CHAR = "$"; //virtual character that does not belong to the alphabet of the text
         private static String REPLACE = "";
@@ -589,6 +635,10 @@ public class  SuffixArray {
     }
     //-----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * This enum is used to construct suffix arrays with one or more strings passed as parameters.
+     * For each string passed as a parameter in the construction of the suffix array, a sentinel character is interposed which will serve to separate the strings from each other.
+     */
     protected enum Sentinel{
         first('!'),
         second('\"'),
@@ -602,6 +652,11 @@ public class  SuffixArray {
         Sentinel(char c){
             sentinel = c;
         }
+
+        /**
+         *
+         * @return
+         */
 
         public char getSentinel(){
             return sentinel;
